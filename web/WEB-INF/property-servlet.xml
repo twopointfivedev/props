@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!-- 
+	DispatcherServlet application profile for web tier.
+-->
+
+<beans>
+	<!-- ========================= MESSAGE SOURCE DEFINITION ========================= -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+            <list>
+                <value>anchors</value>
+                <value>cached</value>
+                <value>explain</value>
+                <value>search</value>
+                <value>test</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- ========================= MAPPING DEFINITIONS ========================= -->
+    <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <prop key="Exception">error</prop>
+            </props>
+        </property>
+	</bean>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+	</bean>
+
+	<bean id="SearchControllerResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/index.html">indexHandler</prop>
+				<prop key="/search.html">searchHandler</prop>
+				<prop key="/prop.html">redirectHandler</prop>
+				<prop key="/sugg-location.html">locationSuggestHandler</prop>
+			</props>
+		</property>
+	</bean>
+	
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/sugg-location.html">searchController</prop>
+				<prop key="/prop.html">searchController</prop>
+				<prop key="/index.html">searchController</prop>
+				<prop key="/search.html">propertyListController</prop>
+			</props>
+		</property>
+	</bean>
+
+    <bean id="searchController" class="net.property.web.SearchController">
+		<property name="methodNameResolver" ref="SearchControllerResolver"/>
+	</bean>
+	<bean id="propertyListController" class="net.property.web.transactions.PropertyListController">
+	<property name="methodNameResolver" ref="PropertyListResolver"/>
+	</bean>	
+		<bean id="PropertyListResolver" class="org.springframework.web.servlet.mvc.multiaction.PropertiesMethodNameResolver">
+		<property name="mappings">
+			<props>
+				<prop key="/search.html">propertyListHandler</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

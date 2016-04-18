@@ -1,0 +1,29 @@
+body {
+	background-color: #ffffff;
+}
+
+#top-bar {
+	padding: 5px 0 0 0;
+}
+
+#primary {
+	width: 50%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#home-logo {
+	margin: 125px auto 20px;
+	width: 425px;
+}
+
+#progress-bar {
+	width: 250px;
+	margin: 35px auto;
+}
+
+h1 {
+	font-size: 18px;
+	font-weight: normal;
+	margin: 45px 0 20px;
+}
